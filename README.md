@@ -48,11 +48,18 @@ Before using this function, ensure you have the following installed:
 
 To use the `gpt` function, simply call it in your terminal with the desired options and arguments.
 ```bash
-  gpt --help
-  Options:
-     -h, --help           display this help message
-     -q, --question_mode  if set, the input will be treated as a general question, otherwise the output will be a single command. default: false 
-     -m, --model <model>  specify the GPT model to use (gpt-3.5-turbo-0125, gpt-4-0125-preview, gpt-4-turbo-preview, gpt-4). default: gpt-3.5-turbo
+$ gpt --help
+Usage: gpt [OPTIONS]
+Options:
+ -h, --help
+			display this help message
+ -q, --question_mode
+			if set, the input will be treated as a general question,
+			otherwise the output will be a single command which is automatically copied to your clipboard.
+			default: false
+ -m, --model <model>
+			specify the GPT model to use (gpt-3.5-turbo-0125, gpt-4-0125-preview, gpt-4-turbo-preview, gpt-4).
+			default: gpt-3.5-turbo
 ```
 
 ## Examples
@@ -62,4 +69,5 @@ To use the `gpt` function, simply call it in your terminal with the desired opti
   
   $ gpt --model gpt-4 "Find files that contain the word 'gpt' in the current directory"
   grep -l 'gpt' * 
+  # copied to clipboard!
 ```
