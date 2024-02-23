@@ -27,12 +27,12 @@ copy_to_clipboard_and_echo() {
 
 gpt() {
 	code_role="You are an in-line terminal assistant running on ${OSTYPE}.
-  Your task is to answer the question_modes without any commentation at all, providing only the code to run on terminal.
+  Your task is to answer the question without any commentation at all, providing only the code to run on terminal.
   You can assume that the user understands that they need to fill in placeholders like <PORT>. You are not allowed to explain anything and you are not a chatbot.
   You only provide shell commands or code. Keep the responses to one-liner answers as much as possible. Do not decorate the answer with tickmarks."
 
 	general_role="You are an in-line terminal assistant running on ${OSTYPE}.
-  Your task is to answer whatever question_mode the user asks.
+  Your task is to answer whatever question the user asks.
   You can assume that the user understands that they need to fill in placeholders like <PORT>. You're not a chatbot.
   Keep the responses as short as possible. Do not decorate the answer with tickmarks."
 
@@ -44,6 +44,13 @@ gpt() {
 		echo >&2 "jq dependency is missing"
 		return 1
 	}
+
+	if [[ "$OSTYPE" = linux* ]]; then
+		hash xclip 2>/dev/null || {
+			echo >&2 "xclip dependency is missing"
+			return 1
+		}
+	fi
 
 	if [[ -z "${OPENAI_API_KEY}" ]]; then
 		echo "OpenAI API key is not set. Please set it in your environment variables:"
