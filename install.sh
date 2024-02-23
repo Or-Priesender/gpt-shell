@@ -27,42 +27,51 @@ gpt() {
       gpt_model="gpt-3.5-turbo"
   
       # Loop through arguments
-      while [[ $# -gt 0 ]]; do
+        while [[ $# -gt  0 ]]; do
           case "$1" in
-              -q)
-                  # Set question_mode flag to true
-                  question_mode=true
-                  ;;
-              -m)
-                  # Check if the next argument exists and is not another flag
-                  if [[ -n $2 && ${2:0:1} != "-" ]]; then
-                      # Check if the value is one of the allowed options
-                      case "$2" in
-                          "gpt-3.5-turbo-0125" | "gpt-3.5-turbo" | "gpt-4-0125-preview" | "gpt-4-turbo-preview" | "gpt-4")
-                              gpt_model="$2"
-                              shift # Consume the value
-                              ;;
-                          *)
-                              echo "Error: Invalid value for -m flag"
-                              exit 1
-                              ;;
-                      esac
-                  else
-                      echo "Error: Missing value for -m flag"
-                      exit 1
-                  fi
-                  ;;
-              *)
-                  # Set the positional argument
-                  user_input="$1"
-                  ;;
+            -h | --help)
+              echo "Usage: $0 [OPTIONS]"
+              echo "Options:"
+              echo " -h, --help           display this help message"
+              echo " -q, --question_mode  if set, the input will be treated as a general question, otherwise the output will be a single command. default: false"
+              echo " -m, --model <model>  specify the GPT model to use (gpt-3.5-turbo-0125, gpt-4-0125-preview, gpt-4-turbo-preview, gpt-4). default: gpt-3.5-turbo"
+              exit  0
+              ;;
+            -q | --question_mode)
+              question_mode=true
+              ;;
+            -m | --model)
+              if [[ -n $2 && ${2:0:1} != "-" ]]; then
+                case "$2" in
+                  "gpt-3.5-turbo-0125" | "gpt-3.5-turbo" | "gpt-4-0125-preview" | "gpt-4-turbo-preview" | "gpt-4")
+                    gpt_model="$2"
+                    shift
+                    ;;
+                  *)
+                    echo "Invalid model, please choose one of gpt-3.5-turbo-0125, gpt-3.5-turbo, gpt-4-0125-preview, gpt-4-turbo-preview, gpt-4"
+                    exit  1
+                    ;;
+                esac
+              else
+                echo "-m flag requires a value"
+                exit  1
+              fi
+              ;;
+            *)
+            	if [[ ${1:0:1} != "-" ]]; then
+								user_input="$1"
+							else
+								echo "Invalid argument: $1"
+								exit  1
+							fi
+              ;;
           esac
-          shift # Move to the next argument
-      done
+          shift
+        done
   
       # Ensure that the positional argument is provided
       if [[ -z $user_input ]]; then
-          echo "Please provide user input"
+          echo "No user input provided"
           exit 1
       fi
 
@@ -80,8 +89,10 @@ gpt() {
          ]
        }')
 
-	curl https://api.openai.com/v1/chat/completions -vvv -s \
+	curl https://api.openai.com/v1/chat/completions -s \
 		-H "Content-Type: application/json" \
 		-H "Authorization: Bearer $OPENAI_API_KEY" \
 		-d "$data" | jq -r '.choices[0].message.content'
 }
+
+gpt "$@"
