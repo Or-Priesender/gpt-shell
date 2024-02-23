@@ -25,9 +25,17 @@ Before using this function, ensure you have the following installed:
     ```bash
       source /path/to/gpt-shell/install.sh
     ```
+    or:
+    ```bash
+      echo "source $(pwd)/install.sh" >> ~/.bashrc # or ~/.zshrc
+    ```
 4. Set your OpenAI API key as an environment variable in your shell profile (`.bashrc` or `.zshrc`):
     ```bash
       export OPENAI_API_KEY="your-api-key"
+    ```
+   or
+    ```bash
+      echo "export OPENAI_API_KEY=your-api-key" >> ~/.bashrc # or ~/.zshrc
     ```
 5. Reload your shell:
     ```bash
