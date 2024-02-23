@@ -9,6 +9,7 @@ This repository contains a shell function named `gpt` designed to act as an in-l
 Before using this function, ensure you have the following installed:
 - `curl` for making HTTP requests.
 - `jq` for processing JSON data.
+- `xclip` for copying the output to your clipboard. (Only for linux users)
 - An OpenAI API key, which you can obtain from the OpenAI website.
 
 ## Installation
