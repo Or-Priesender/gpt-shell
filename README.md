@@ -71,4 +71,4 @@ Options:
   $ gpt --model gpt-4 "Find files that contain the word 'gpt' in the current directory"
   grep -l 'gpt' * 
   # copied to clipboard!
-```
+```test
